@@ -6,12 +6,14 @@ pub mod custom;
 pub mod custom_dbus;
 pub mod disk_space;
 pub mod docker;
+pub mod firewall;
 pub mod focused_window;
 pub mod github;
 pub mod hueshift;
 pub mod ibus;
 pub mod kdeconnect;
 pub mod keyboard_layout;
+pub mod killswitch;
 pub mod load;
 pub mod maildir;
 pub mod memory;
@@ -44,12 +46,14 @@ use self::custom::*;
 use self::custom_dbus::*;
 use self::disk_space::*;
 use self::docker::*;
+use self::firewall::*;
 use self::focused_window::*;
 use self::github::*;
 use self::hueshift::*;
 use self::ibus::*;
 use self::kdeconnect::*;
 use self::keyboard_layout::*;
+use self::killswitch::*;
 use self::load::*;
 use self::maildir::*;
 use self::memory::*;
@@ -196,6 +200,8 @@ pub fn create_block(
         "weather" => block!(Weather, block_config, config, update_request),
         "xrandr" => block!(Xrandr, block_config, config, update_request),
         "hueshift" => block!(Hueshift, block_config, config, update_request),
+        "firewall" => block!(Firewall, block_config, config, update_request),
+        "killswitch" => block!(Killswitch, block_config, config, update_request),
         other => Err(BlockError(other.to_string(), "Unknown block!".to_string())),
     }
 }

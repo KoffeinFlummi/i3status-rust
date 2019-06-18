@@ -147,7 +147,9 @@ lazy_static! {
         "weather_snow" => " \u{f2dc} ",
         "weather_sun" => " \u{f185} ",
         "weather_thunder" => " \u{f0e7} ",
-        "xrandr" => " \u{f26c} "
+        "xrandr" => " \u{f26c} ",
+        "firewall" => "  ",
+        "killswitch" => "  "
     };
 
     // FontAwesome 5
@@ -221,7 +223,9 @@ lazy_static! {
         "weather_snow" => " \u{f2dc} ",
         "weather_sun" => " \u{f185} ",
         "weather_thunder" => " \u{f0e7} ",
-        "xrandr" => " \u{f26c} "
+        "xrandr" => " \u{f26c} ",
+        "firewall" => "  ",
+        "killswitch" => "  "
     };
 
     pub static ref MATERIAL: Map<String, String> = map_to_owned! {
