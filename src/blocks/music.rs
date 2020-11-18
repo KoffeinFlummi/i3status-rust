@@ -460,7 +460,10 @@ impl ConfigBlock for Music {
                         ButtonWidget::new(config.clone(), &button_id)
                             .with_icon("music_play")
                             .with_state(State::Info)
-                            .with_spacing(Spacing::Inline),
+                            .with_spacing(Spacing::Inline)
+                            .with_separator("\u{e0b9}")
+                            .with_bg("#1db954")
+                            .with_fg("#191414"),
                     )
                 }
                 "next" => {
@@ -469,7 +472,10 @@ impl ConfigBlock for Music {
                         ButtonWidget::new(config.clone(), &button_id)
                             .with_icon("music_next")
                             .with_state(State::Info)
-                            .with_spacing(Spacing::Inline),
+                            .with_spacing(Spacing::Inline)
+                            .with_separator("\u{e0b9}")
+                            .with_bg("#1db954")
+                            .with_fg("#191414"),
                     )
                 }
                 "prev" => {
@@ -478,7 +484,10 @@ impl ConfigBlock for Music {
                         ButtonWidget::new(config.clone(), &button_id)
                             .with_icon("music_prev")
                             .with_state(State::Info)
-                            .with_spacing(Spacing::Inline),
+                            .with_spacing(Spacing::Inline)
+                            .with_separator("\u{e0b9}")
+                            .with_bg("#1db954")
+                            .with_fg("#191414"),
                     )
                 }
                 x => {
