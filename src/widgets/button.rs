@@ -15,6 +15,9 @@ pub struct ButtonWidget {
     rendered: Value,
     cached_output: Option<String>,
     config: Config,
+    bg: Option<String>,
+    fg: Option<String>,
+    separator: Option<String>,
 }
 
 impl ButtonWidget {
@@ -35,6 +38,9 @@ impl ButtonWidget {
             }),
             config,
             cached_output: None,
+            bg: None,
+            fg: None,
+            separator: None,
         }
     }
 
@@ -68,6 +74,24 @@ impl ButtonWidget {
         self
     }
 
+    pub fn with_bg<S: Into<String>>(mut self, bg: S) -> Self {
+        self.bg = Some(bg.into());
+        self.update();
+        self
+    }
+
+    pub fn with_fg<S: Into<String>>(mut self, fg: S) -> Self {
+        self.fg = Some(fg.into());
+        self.update();
+        self
+    }
+
+    pub fn with_separator<S: Into<String>>(mut self, separator: S) -> Self {
+        self.separator = Some(separator.into());
+        self.update();
+        self
+    }
+
     pub fn set_text<S: Into<String>>(&mut self, content: S) {
         self.content = Some(content.into());
         self.update();
@@ -89,11 +113,15 @@ impl ButtonWidget {
     }
 
     fn update(&mut self) {
-        let (key_bg, key_fg) = self.state.theme_keys(&self.config.theme);
+        let (cfg_bg, cfg_fg) = self.state.theme_keys(&self.config.theme);
+
+        let key_bg = self.bg.clone().unwrap_or(cfg_bg.to_string());
+        let key_fg = self.fg.clone().unwrap_or(cfg_fg.to_string());
 
         // When rendered inline, remove the leading space
         self.rendered = json!({
-            "full_text": format!("{}{}{}",
+            "full_text": format!("{}{}{}{}",
+                                self.separator.clone().unwrap_or_else(|| String::from("")),
                                 self.icon.clone().unwrap_or_else(|| {
                                     match self.spacing {
                                         Spacing::Normal => String::from(" "),
