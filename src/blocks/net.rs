@@ -24,7 +24,7 @@ use crate::util::{
     escape_pango_text, format_percent_bar, format_speed, format_vec_to_bar_graph, pseudo_uuid,
     FormatTemplate,
 };
-use crate::widget::{I3BarWidget, Spacing};
+use crate::widget::{I3BarWidget, Spacing, State};
 use crate::widgets::button::ButtonWidget;
 
 lazy_static! {
@@ -864,7 +864,7 @@ impl Block for Net {
         self.exists = self.device.exists()?;
         self.active = self.exists && self.device.is_up()?;
         if !self.active {
-            self.network.set_text("×".to_string());
+            self.network.set_text(" down".to_string());
             if let Some(ref mut tx) = self.output_tx {
                 *tx = "×".to_string();
             };
@@ -872,8 +872,14 @@ impl Block for Net {
                 *rx = "×".to_string();
             };
 
+            self.network.set_state(State::Critical);
+            self.output.set_state(State::Critical);
+
             return Ok(Some(self.update_interval.into()));
         }
+
+        self.network.set_state(State::Good);
+        self.output.set_state(State::Good);
 
         self.network.set_text("".to_string());
 
@@ -940,8 +946,12 @@ impl Block for Net {
             "{graph_down}" =>  self.graph_rx.as_ref().unwrap_or(&empty_string)
         );
 
-        self.output
-            .set_text(self.format.render_static_str(&values)?);
+        if self.device.is_vpn() {
+            self.output.set_text("".to_string());
+        } else {
+            self.output
+                .set_text(self.format.render_static_str(&values)?);
+        }
 
         Ok(Some(self.update_interval.into()))
     }
